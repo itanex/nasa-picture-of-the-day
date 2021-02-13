@@ -1,0 +1,14 @@
+<h2>Picture for {{imageDate | date: 'yyyy MMMM dd'}}</h2>
+
+<div class="date-selector">Date Selector here!!</div>
+
+<div class="image" *ngIf="data$ | async as record">
+    <img class="image-placeholder" [src]="record.url" />
+    <div>
+        <h3>Title:</h3>
+        <div>{{record.title}}</div>
+        <h3>Description</h3>
+        <div>{{record.explanation}}</div>
+        <h3><a href="{{record.hdurl}}">View HD Image</a></h3>
+    </div>
+</div>
