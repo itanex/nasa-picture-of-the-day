@@ -15,21 +15,37 @@ describe('AppComponent', () => {
   });
 
   it('should create the app', () => {
+    // Arrange
     const fixture = TestBed.createComponent(AppComponent);
+
+    // Act
     const app = fixture.componentInstance;
+
+    // Assert
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'nasa-potd'`, () => {
+  it(`should have as title 'Astronomy Picture of the Day'`, () => {
+    // Arrange
     const fixture = TestBed.createComponent(AppComponent);
+    
+    // Act
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('nasa-potd');
+    
+    // Assert
+    expect(app.appTitle).toEqual('Astronomy Picture of the Day');
   });
 
   it('should render title', () => {
+    // Arrange
     const fixture = TestBed.createComponent(AppComponent);
+    
+    // Act
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('nasa-potd app is running!');
+    
+    // Assert
+    expect(compiled.querySelector('.toolbar span').textContent)
+      .toContain('Astronomy Picture of the Day');
   });
 });
