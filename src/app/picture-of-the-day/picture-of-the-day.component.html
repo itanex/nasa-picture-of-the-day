@@ -1,14 +1,36 @@
-<h2>Picture for {{imageDate | date: 'yyyy MMMM dd'}}</h2>
+<h2>Astronomy Picture of the Day for {{imageDate | date: 'yyyy MMMM dd'}}</h2>
 
-<div class="date-selector">Date Selector here!!</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <div class="input-group">
+                <input class="form-control" id="viewdate" [(ngModel)]="imageDate" [minDate]="minDate"
+                    [maxDate]="maxDate" readonly (dateSelect)="onSelectDate($event)" ngbDatepicker #d="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                        <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="image" *ngIf="data$ | async as record">
-    <img class="image-placeholder" [src]="record.url" />
-    <div>
+<div class="row" *ngIf="data$ | async as record">
+    <div class="col-md-6">
+        <img class="img-fluid" [src]="record.url" />
+    </div>
+    <div class="col-md-6">
         <h3>Title:</h3>
-        <div>{{record.title}}</div>
+        <div id="title">{{record.title}}</div>
         <h3>Description</h3>
-        <div>{{record.explanation}}</div>
-        <h3><a href="{{record.hdurl}}">View HD Image</a></h3>
+        <div id="description">{{record.explanation}}</div>
+        <br>
+        <h5>
+            <a id="hdurl" href="{{record.hdurl}}" target="_blank">
+                View HD Image
+                <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+            </a>
+        </h5>
     </div>
 </div>
