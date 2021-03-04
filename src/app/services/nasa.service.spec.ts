@@ -45,7 +45,7 @@ describe('NasaService', () => {
         const displayDate: Date = new Date(2021, 0, 1);
 
         // Act
-        service.getImage(displayDate)
+        service.getImages(displayDate)
             .subscribe();
 
         // Assert
