@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faCalendarAlt, faExternalLinkAlt, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { NasaService } from '../services/nasa.service';
 import { dateToStuct } from '../shared/functions/date-to-stuct.fn';
@@ -39,6 +40,8 @@ export class PictureOfTheDayComponent implements OnInit {
      */
     public data$!: Observable<Potd>;
 
+    public unavailable: boolean = false;
+
     /** Past Date to restrict the date selector */
     public minDate!: NgbDateStruct;
 
@@ -59,12 +62,13 @@ export class PictureOfTheDayComponent implements OnInit {
      */
     ngOnInit(): void {
         const todayDate = new Date();
+        const initialDate = this.calculateAdjustedDate(todayDate, 1)
         const pastDate = this.calculateAdjustedDate(todayDate, -2);
 
         this.imageDate = todayDate;
         this.previousDate = todayDate;
         this.minDate = dateToStuct(pastDate);
-        this.maxDate = dateToStuct(todayDate);
+        this.maxDate = dateToStuct(initialDate);
 
         this.getSpecificDateImage(new Date());
     }
@@ -100,7 +104,17 @@ export class PictureOfTheDayComponent implements OnInit {
             this.previousDate = requestedDate;
 
             this.data$ = this.nasaService
-                .getImage(requestedDate);
+                .getImages(requestedDate)
+                .pipe(
+                    map((imgList) => {
+                        this.unavailable = false;
+                        return imgList[0];
+                    }),
+                    catchError((error: any) => {
+                        this.unavailable = true;
+                        return throwError(error);
+                    })
+                );;
         }
     }
 }

@@ -16,6 +16,12 @@
     </div>
 </div>
 
+<div class="row" *ngIf="unavailable">
+    <div class="alert alert-danger" role="alert">
+        NASA Picture of the Day is not available for {{imageDate | date: 'yyyy MMMM dd'}}
+    </div>
+</div>
+
 <div class="row" *ngIf="data$ | async as record">
     <div class="col-md-6">
         <img class="img-fluid" [src]="record.url" />
