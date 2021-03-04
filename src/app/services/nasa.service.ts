@@ -2,7 +2,6 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Potd } from '../picture-of-the-day/potd.model';
 
@@ -26,12 +25,9 @@ export class NasaService {
      * @param requestDate The requested date of the image
      * @return Observable of the Picture of the Day Record
      */
-    getImage(requestDate: Date): Observable<Potd> {
+    getImages(requestDate: Date): Observable<Potd[]> {
         return this.httpClient
-            .get<Potd[]>(this.getRequestUrl(requestDate))
-            .pipe(
-                map((imgList) => imgList[0])
-            );
+            .get<Potd[]>(this.getRequestUrl(requestDate));
     }
 
     private getRequestUrl(requestDate: Date): string {
